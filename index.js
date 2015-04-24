@@ -6,13 +6,15 @@ module.exports = duration
 
 var prefix = '[' + chalk.green('gulp') + '] '
 
-function duration(name, prefix$) {
+function duration(name, options) {
   var start  = process.hrtime()
   var stream = through.obj({
     objectMode: true
   })
 
-  prefix$ = ('[' + chalk.gray(prefix$) + ']') || prefix;
+  options        = options || {};
+  options.color  = (options.color != null) ? (chalk[options.color] || chalk.green) : chalk.green;
+  options.prefix = (options.prefix != null) ? '[' + options.color(options.prefix) + '] ' : prefix;
 
   stream.start = resetStart
 
@@ -30,7 +32,7 @@ function duration(name, prefix$) {
   }
 
   function log(str) {
-    str = prefix$ + str
+    str = options.prefix + str
     console.log(str)
   }
 }
