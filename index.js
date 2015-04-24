@@ -6,11 +6,13 @@ module.exports = duration
 
 var prefix = '[' + chalk.green('gulp') + '] '
 
-function duration(name) {
+function duration(name, prefix$) {
   var start  = process.hrtime()
   var stream = through.obj({
     objectMode: true
   })
+
+  prefix$ = ('[' + chalk.gray(prefix$) + ']') || prefix;
 
   stream.start = resetStart
 
@@ -28,7 +30,7 @@ function duration(name) {
   }
 
   function log(str) {
-    str = prefix + str
+    str = prefix$ + str
     console.log(str)
   }
 }
